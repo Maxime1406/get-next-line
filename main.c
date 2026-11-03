@@ -20,7 +20,6 @@ int	main(void)
 		printf("%s", line);
 		free(line);
 	}
-
 	close(fd);
 	return (0);
 }
