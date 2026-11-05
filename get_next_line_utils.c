@@ -6,7 +6,7 @@
 /*   By: mbardeau <mbardeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/02 10:36:08 by mbardeau          #+#    #+#             */
-/*   Updated: 2026/11/03 16:18:53 by mbardeau         ###   ########.fr       */
+/*   Updated: 2026/11/05 17:33:09 by mbardeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ char	*ft_strchr(const char *s, int c)
 {
 	int	i;
 
+	if (!s)
+		return (NULL);
 	i = 0;
 	while (s[i])
 	{
@@ -58,30 +60,31 @@ char	*ft_strdup(const char *s)
 	return (dest);
 }
 
-char	*ft_strjoin(const char *s1, const char *s2)
+char    *ft_strjoin(const char *s1, const char *s2)
 {
-	char	*dest;
-	size_t	len_s1;
-	size_t	len_s2;
-	size_t		i;
-	size_t		j;
+    char    *dest;
+    size_t  i;
+    size_t  j;
 
-	if (!s1 || !s2)
-		return (NULL);
-	len_s1 = ft_strlen(s1);
-	len_s2 = ft_strlen(s2);
-	i = 0;
-	j = 0; 
-	dest = malloc((len_s1 + len_s2 + 1) * sizeof(char));
-	if (!dest)
-		return (NULL);
-	dest[0] = '\0';
-	while (i++ < len_s1)
-		dest[i] = s1[i];
-	while (j++ < len_s2)
-		dest[i + j] = s2[j];
-	dest[i + j] = '\0';
-	return (dest);
+    if (!s1 || !s2)
+        return (NULL);
+    dest = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+    if (!dest)
+        return (NULL);
+    i = 0;
+    while (s1[i])
+    {
+        dest[i] = s1[i];
+        i++;
+    }
+    j = 0;
+    while (s2[j])
+    {
+        dest[i + j] = s2[j];
+        j++;
+    }
+    dest[i + j] = '\0';
+    return (dest);
 }
 
 char	*ft_substr(const char *s, unsigned int start, size_t len)
@@ -104,9 +107,11 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 	dest = malloc((len + 1) * sizeof(char));
 	if (!dest)
 		return (NULL);
-	dest[0] = '\0';
 	i = 0;
-	while (i++ < len)
+	while (i < len)
+	{
 		dest[i] = s[start + i];
+		i++;
+	}
 	return (dest);
 }
