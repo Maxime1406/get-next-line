@@ -19,7 +19,7 @@
 int	main(void)
 {
 	int		fd;
-	char	*line;
+	char	*line = NULL;
 
 	fd = open("test_GNL.txt", O_RDONLY);
 	if (fd < 0)
@@ -27,8 +27,9 @@ int	main(void)
 		perror("Erreur lors de l'ouverture du fichier");
 		return (1);
 	}
-	while ((line = get_next_line(fd)) != NULL)
+	while (!ft_strchr(line, '\0'))
 	{
+		line = get_next_line(fd);
 		printf("%s", line);
 		free(line);
 	}

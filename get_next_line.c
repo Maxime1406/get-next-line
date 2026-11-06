@@ -16,25 +16,25 @@ static char	*ft_read_and_stash(int fd, char *stash)
 {
 	char		*tmp_buff;
 	size_t		read_bytes;
+	char		*tmp_stash;
 
 	tmp_buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!tmp_buff)
 		return (NULL);
-	while (!ft_strchr(stash, '\n'))
+	while(!ft_strchr(stash, '\n'))
 	{
 		read_bytes = read(fd, tmp_buff, BUFFER_SIZE);
-		if (read_bytes < 0)
-		{
-			free(tmp_buff);
-			return (NULL);
-		}
-		if (read_bytes == 0)
+		if (read_bytes <= 0)
 			break ;
 		tmp_buff[read_bytes] = '\0';
 		if (!stash)
 			stash = ft_strdup(tmp_buff);
 		else
-			stash = ft_strjoin(stash, tmp_buff);
+		{
+			tmp_stash = ft_strjoin(stash, tmp_buff);
+			free(stash);
+			stash = tmp_stash;
+		}
 	}
 	free(tmp_buff);
 	return (stash);
@@ -74,10 +74,14 @@ static char	*ft_clean_stash(char *stash)
 	i = 0;
 	while (stash[i] != '\n' && stash[i])
 		i++;
+	if (stash[i + 1] == '\0')
+	{
+		free(stash);
+		return (NULL);
+	}
 	new_stash = ft_substr(stash, i, ft_strlen(stash) - i);
 	free(stash);
 	stash = new_stash;
-	free(new_stash);
 	return (stash);
 }
 
