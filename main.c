@@ -16,23 +16,37 @@
 #include <unistd.h>
 #include "get_next_line.h"
 
-int	main(void)
-{
-	int		fd;
-	char	*line = NULL;
+#include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include "get_next_line.h"
 
-	fd = open("test_GNL.txt", O_RDONLY);
-	if (fd < 0)
-	{
-		perror("Erreur lors de l'ouverture du fichier");
-		return (1);
-	}
-	while (!ft_strchr(line, '\0'))
-	{
-		line = get_next_line(fd);
-		printf("%s", line);
-		free(line);
-	}
-	close(fd);
-	return (0);
+int main(int argc, char **argv)
+{
+    int     fd;
+    char    *line;
+    char    *filename;
+
+    if (argc > 1)
+        filename = argv[1];
+    else
+        filename = "test_GNL.txt";
+
+    fd = open(filename, O_RDONLY);
+    if (fd < 0)
+    {
+        perror("Erreur d'ouverture du fichier");
+        return (1);
+    }
+
+    printf("=== Lecture de %s ===\n", filename);
+    while ((line = get_next_line(fd)) != NULL)
+    {
+        printf("%s", line);
+        free(line);
+    }
+
+    close(fd);
+    return (0);
 }
