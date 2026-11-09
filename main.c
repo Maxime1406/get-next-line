@@ -40,7 +40,6 @@ int main(int argc, char **argv)
         return (1);
     }
 
-    printf("=== Lecture de %s ===\n", filename);
     while ((line = get_next_line(fd)) != NULL)
     {
         printf("%s", line);
